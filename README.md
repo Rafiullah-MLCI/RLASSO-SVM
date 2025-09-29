@@ -30,7 +30,7 @@ w <- rbinom(n, 1, 0.5)          # Treatment
 y <- rnorm(n)                    # Outcome
 
 # Fit the model
-result <- rlasso_svm(x, w, y,)
+result <- rlasso_svm(x, w, y)
 
 # Predict treatment effects
 predictions <- predict(result, newx = x)
