@@ -1,2 +1,37 @@
 # RLASSO-SVM
-  Residualized LASSO with Support Vector Machines for Heterogeneous Treatment Effects Estimation
+An R function to implement Residualized LASSO and Support Vector Machines (SVM) for treatment effect estimation.
+## Details
+**Function**: RLASSO-SVM  
+**Type**: R Function  
+**Title**: Residualized LASSO with Support Vector Machines for Heterogeneous Treatment Effects Estimation  
+**Version**: 1.0  
+**Date**: 2025-09-29  
+**Author**: Rafullah
+**Maintainer**: Rafullah <rafiuom111@gmail.com>  
+**Description**: The RLASSO-SVM function implements a hybrid model combining Residualized Least Absolute Shrinkage and Selection Operator (LASSO) with Support Vector Machines (SVM) for estimating heterogeneous treatment effects estimation. It uses LASSO (via glmnet) for feature selection and SVM (via e1071) for estimating nuisance parameters (m_hat, p_hat), with preprocessing handled by caret and stringr. The function supports cross-validation, standardization, and an optional robust specification (rs) for high-dimensional datasets.  
+**License**: GPL-3  
+**Depends**: R (>= 3.5.0)  
+**Suggested Packages**: caret, stringr, e1071, glmnet  
+**Encoding**: UTF-8  
+
+## Usage
+```R
+library(caret)
+library(stringr)
+library(e1071)
+library(glmnet)
+
+# Example data
+set.seed(123)
+n <- 100
+p <- 10
+x <- matrix(rnorm(n * p), n, p)  # Covariates
+w <- rbinom(n, 1, 0.5)          # Treatment
+y <- rnorm(n)                    # Outcome
+
+# Fit the model
+result <- rlasso_svm(x, w, y,)
+
+# Predict treatment effects
+predictions <- predict(result, newx = x)
+print(head(predictions))
