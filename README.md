@@ -23,15 +23,15 @@ library(glmnet)
 
 # Example data
 set.seed(123)
-n <- 100
-p <- 10
-x <- matrix(rnorm(n * p), n, p)  # Covariates
-w <- rbinom(n, 1, 0.5)          # Treatment
-y <- rnorm(n)                    # Outcome
+n <- 500
+p <- 20
 
+x = matrix(rnorm(n*p), n, p) # Covariates
+w = rbinom(n, 1, 0.5) # Treatment
+y = pmax(x[,1], 0) * w + x[,2] + pmin(x[,3], 0) + rnorm(n) # Outcome
 # Fit the model
-result <- rlasso_svm(x, w, y)
+Rlasso_svm <- rlasso_svm(x = x, w = w, y = y)
 
 # Predict treatment effects
-predictions <- predict(result, newx = x)
-print(head(predictions))
+rlasso_svm_pred <- predict(Rlasso_svm, newx = x)
+print(rlasso_svm_pred)
