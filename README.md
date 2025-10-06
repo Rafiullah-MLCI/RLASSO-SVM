@@ -16,11 +16,6 @@ An R function to implement Residualized LASSO and Support Vector Machines (SVM) 
 
 ## Usage
 ```R
-library(caret)
-library(stringr)
-library(e1071)
-library(glmnet)
-
 # Example data
 set.seed(123)
 n <- 500
