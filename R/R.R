@@ -31,6 +31,50 @@
 #'   \item standardization: preprocessing object
 #' }
 #' @export
+#' 
+#'##### R Utiles.
+# For thresholding propensity scores
+trim = function(x, min, max) {
+  x[x>max] = max
+  x[x<min] = min
+  return(x)
+}
+
+sanitize_x = function(x){
+  # make sure x is a numeric matrix with named columns (for caret)
+  if (!is.matrix(x) | !is.numeric(x) | any(is.na(x))) {
+    stop("x must be a numeric matrix with no missing values")
+  }
+  colnames(x) = stringr::str_c("covariate_", 1:ncol(x))
+  return(x)
+}
+
+sanitize_input = function(x,w,y) {
+  x = sanitize_x(x)
+  
+  if (!is.numeric(w)) {
+    stop("the input w should be a numeric vector")
+  }
+  if (is.numeric(w) & all(w %in% c(0,1))) {
+    w = w==1
+  }
+  
+  # make sure y is a numeric vector
+  if (!is.numeric(y)) {
+    stop("y should be a numeric vector")
+  }
+  
+  # make sure the dimensions align
+  if (length(y)!=nrow(x) | length(w)!=nrow(x)) {
+    stop("nrow(x), length(w), and length(y) should all be equal")
+  }
+  
+  return(list(x=x,
+              w=w,
+              y=y))
+}
+
+
 # RLASSO-SVM function
 rlasso_svm <- function(x, w, y,
                        alpha = 1,
